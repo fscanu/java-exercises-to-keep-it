@@ -2,6 +2,11 @@
 // ABOUTME: generics variance (org.example.generics). Run with no arg for the index.
 package org.example;
 
+import org.example.equality.Equality01Contract;
+import org.example.equality.Equality02MutableKey;
+import org.example.equality.Equality03Inheritance;
+import org.example.equality.Equality04ComparableVsEquals;
+import org.example.equality.Equality05JdkAndRecords;
 import org.example.generics.Generics01Erasure;
 import org.example.generics.Generics02Variance;
 import org.example.generics.Generics03Pecs;
@@ -38,6 +43,13 @@ public class Main {
                     {"Pecs", "producer extends / consumer super, DERIVED from capture rather than memorised"},
                     {"JdkSignatures", "Collections.copy, List.sort, Stream.map, read from the class files"},
                     {"BoundedVsWildcard", "when <T extends ...> is required and when a wildcard is the better tool"},
+            }),
+            new Track("equals/hashCode & Collection Behaviour", new String[][]{
+                    {"Contract", "hashCode picks the bucket, equals decides inside it; break either and lookups vanish"},
+                    {"MutableKey", "mutate a key and the object is present, unfindable and unremovable at once"},
+                    {"Inheritance", "adding a value component breaks symmetry, transitivity or substitutability"},
+                    {"ComparableVsEquals", "TreeSet/TreeMap decide identity with compareTo and never call equals"},
+                    {"JdkAndRecords", "what the JDK defines for you, and the array component records cannot fix"},
             }),
     };
 
@@ -104,6 +116,7 @@ public class Main {
         switch (t) {
             case 1 -> runJmm(n);
             case 2 -> runGenerics(n);
+            case 3 -> runEquality(n);
             default -> throw new IllegalArgumentException("no track " + t);
         }
     }
@@ -133,6 +146,17 @@ public class Main {
             }
         } catch (NoSuchFieldException e) {
             throw new IllegalStateException("reflection demo failed", e);
+        }
+    }
+
+    private static void runEquality(int n) {
+        switch (n) {
+            case 1 -> Equality01Contract.main(NO_ARGS);
+            case 2 -> Equality02MutableKey.main(NO_ARGS);
+            case 3 -> Equality03Inheritance.main(NO_ARGS);
+            case 4 -> Equality04ComparableVsEquals.main(NO_ARGS);
+            case 5 -> Equality05JdkAndRecords.main(NO_ARGS);
+            default -> throw new IllegalArgumentException("no concept " + n);
         }
     }
 

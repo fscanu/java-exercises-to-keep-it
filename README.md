@@ -12,6 +12,7 @@ distinction between those two is the point of the whole repository.
 |---|-------|--------|
 | 1 | [JVM Memory Model & Concurrency](src/main/java/org/example/jmm/README.md) | 7 concepts, complete |
 | 2 | [Generics Variance (PECS)](src/main/java/org/example/generics/README.md) | 5 concepts, complete |
+| 3 | [equals/hashCode & Collection Behaviour](src/main/java/org/example/equality/README.md) | 5 concepts, complete |
 
 ## Track 1: JVM Memory Model & Concurrency
 
@@ -51,10 +52,27 @@ than any mnemonic.
 
 **Start with [the Track 2 study guide](src/main/java/org/example/generics/README.md).**
 
+## Track 3: equals/hashCode & Collection Behaviour
+
+Five runnable demos in [`org.example.equality`](src/main/java/org/example/equality). The
+mistakes in this track are the quiet ones: unlike Track 2 nothing fails to compile, and
+unlike Track 1 nothing depends on your hardware. They compile, run, throw nothing, and
+return the wrong answer.
+
+| # | Concept | Shows |
+|---|---------|-------|
+| 1 | Contract | `hashCode` picks the bucket and `equals` decides inside it; override one and `equals` is never even called |
+| 2 | Mutable key | mutate a key and the object is present, unfindable, unremovable and still iterable, all at once, with no exception |
+| 3 | Inheritance | adding a value component to a subclass breaks symmetry, transitivity or substitutability; pick one |
+| 4 | Comparable vs equals | `TreeSet`/`TreeMap` decide identity with `compareTo` and never call `equals`, so a comparator silently defines what a duplicate is |
+| 5 | JDK and records | what the JDK defines for you, and the array component a record cannot fix |
+
+**Start with [the Track 3 study guide](src/main/java/org/example/equality/README.md).**
+
 ## Running
 
 ```bash
-mvn compile exec:java                            # index of both tracks
+mvn compile exec:java                            # index of all tracks
 mvn compile exec:java -Dexec.arguments=1.2       # one concept (track.concept)
 mvn compile exec:java -Dexec.arguments=2         # a whole track
 mvn compile exec:java -Dexec.arguments=all       # everything
