@@ -133,6 +133,12 @@ public final class Concept04DoubleCheckedLocking {
     }
 
     /** V4 - initialization-on-demand HOLDER: classloading does the synchronization for you. */
+    // WHY IT IS SAFE, in the vocabulary of Concept #2: the edges are spent on your behalf.
+    // Class initialization runs under the JVM's own init lock (JLS 12.4.2), which serialises
+    // every concurrent first-touch, and INSTANCE is static final, so the final-field freeze
+    // covers its publication exactly as it covers Holder.fin in Concept #2 Demo F. That is
+    // the whole trick: V3 buys one edge with `volatile`, V4 inherits two for free and there
+    // is no chain left to get backwards.
     static final class HolderSingleton {
         static final AtomicInteger constructions = new AtomicInteger();
         private HolderSingleton() { constructions.incrementAndGet(); }
