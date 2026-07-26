@@ -8,9 +8,9 @@ distinctions actually break people, which demo proves what, and a self-test to f
 whether you can reason to an answer instead of recalling one.
 
 ```bash
-mvn compile exec:java                          # index
-mvn compile exec:java -Dexec.arguments=2       # one concept
-mvn compile exec:java -Dexec.arguments=all     # all seven
+mvn compile exec:java                            # index
+mvn compile exec:java -Dexec.arguments=1.2       # one concept (track.concept)
+mvn compile exec:java -Dexec.arguments=1         # all seven
 ```
 
 The JDK on `PATH` is 8; the project needs 21 at `/usr/lib/jvm/java-21-openjdk-amd64`. Maven

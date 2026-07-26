@@ -11,7 +11,7 @@ distinction between those two is the point of the whole repository.
 | # | Track | Status |
 |---|-------|--------|
 | 1 | [JVM Memory Model & Concurrency](src/main/java/org/example/jmm/README.md) | 7 concepts, complete |
-| 2 | Generics Variance (PECS) | planned |
+| 2 | [Generics Variance (PECS)](src/main/java/org/example/generics/README.md) | 5 concepts, complete |
 
 ## Track 1: JVM Memory Model & Concurrency
 
@@ -32,12 +32,32 @@ reordering is legal at all" to a producer/consumer handoff traced edge by edge.
 five-edge reference table, the three distinctions people reliably get wrong, a map of which
 failures are visible on x86 and which are not, and a self-test.
 
+## Track 2: Generics Variance (PECS)
+
+Five runnable demos in [`org.example.generics`](src/main/java/org/example/generics), built so
+that PECS can be *rebuilt* from erasure rather than recalled.
+
+| # | Concept | Shows |
+|---|---------|-------|
+| 1 | Erasure | `List<String>` and `List<Integer>` are one class at runtime; a raw type smuggles an `Integer` into a `List<String>` and the `ClassCastException` lands at the read |
+| 2 | Variance | arrays are covariant and pay with a runtime check on every store; generics were erased, so invariance is the only sound option |
+| 3 | PECS | derived from the compiler's capture variable, not memorised: exactly one operation is provably sound in each direction |
+| 4 | JDK signatures | `Collections.copy`, `List.sort`, `Stream.map` and friends, printed from the class files by reflection so they cannot drift |
+| 5 | Bounded vs wildcard | when `<T extends ...>` is required, and why `Comparable<? super T>` is not decoration |
+
+Plus [`wrong-turns/`](wrong-turns): six files that deliberately do **not** compile, kept for
+their error messages. javac names the captured type variable and explains the rule better
+than any mnemonic.
+
+**Start with [the Track 2 study guide](src/main/java/org/example/generics/README.md).**
+
 ## Running
 
 ```bash
-mvn compile exec:java                          # index of all concepts
-mvn compile exec:java -Dexec.arguments=2       # run one
-mvn compile exec:java -Dexec.arguments=all     # run every one
+mvn compile exec:java                            # index of both tracks
+mvn compile exec:java -Dexec.arguments=1.2       # one concept (track.concept)
+mvn compile exec:java -Dexec.arguments=2         # a whole track
+mvn compile exec:java -Dexec.arguments=all       # everything
 ```
 
 Requires **JDK 21** and Maven. `.mvn/maven.config` pins resolution to Maven Central so a clone
